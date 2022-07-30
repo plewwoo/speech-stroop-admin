@@ -32,8 +32,23 @@ const exphbs = hbs.create({
         datetimeFormat: (date, format) => {
             return moment(date).locale('th').format(format)
         },
+        yearsOld: (date, format) => {
+            return moment().diff(date, format)
+        },
         finalScore: (congruent, incongruent) => {
             return congruent + incongruent
+        },
+        changeMsToS: (ms) => {
+            sec = ms/1000
+            return sec.toFixed(2)
+        },
+        scorePercent: (congruent, incongruent) => {
+            percent = ((congruent + incongruent) * 100) / 20
+            return percent.toFixed()
+        },
+        congruentPercent: (val) => {
+            percent = (val * 100) / 30
+            return percent.toFixed()
         },
         inc: (value, options) => {
             return parseInt(value) + options
@@ -45,7 +60,7 @@ app.engine('hbs', exphbs.engine);
 app.set('view engine', 'hbs');
 
 //Middleware
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

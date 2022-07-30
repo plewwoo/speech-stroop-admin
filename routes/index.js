@@ -23,21 +23,61 @@ router.get('/', async (req, res) => {
 	})
 });
 
-router.get('/users', (req, res) => {
+router.get('/user', (req, res) => {
 	db.selectAllUsers((err, result) => {
-		res.render('user/allUsers', {
+		res.render('user/allUser', {
 			result,
 			users: true,
 		})
 	})
 });
 
+router.get('/user/:id', (req, res) => {
+	var ObjectId = require('mongodb').ObjectId;
+	const id = req.params.id
+	const oid = new ObjectId(id)
+
+	db.selectUserAndHistories(oid, (err, result) => {
+		res.render('user/user', {
+			result,
+			users: true,
+		})
+		console.log('result : ', result)
+	})
+});
+
 router.get('/history', (req, res) => {
-	db.selectUserAndHistories((err, result) => {
+	db.selectAllUserAndHistories((err, result) => {
 		res.render('history/allHistory', {
 			result,
 			history: true,
 		})
+	})
+});
+
+router.get('/history/:id', (req, res) => {
+	var ObjectId = require('mongodb').ObjectId; 
+	const id = req.params.id
+	const oid = new ObjectId(id)
+
+	db.selectHistoriesAndUser(oid, (err, result) => {
+
+		let con1 = (result[0].sections[0].score.congruent)
+		let con2 = (result[0].sections[1].score.congruent)
+		let con3 = (result[0].sections[2].score.congruent)
+		let con = con1 + con2 + con3
+		let incon1 = (result[0].sections[0].score.incongruent)
+		let incon2 = (result[0].sections[1].score.incongruent)
+		let incon3 = (result[0].sections[2].score.incongruent)
+		let incon = incon1 + incon2 + incon3
+
+		res.render('history/history', {
+			result,
+			history: true,
+			con,
+			incon
+		})
+		// res.json(result[0].sections)
 	})
 });
 

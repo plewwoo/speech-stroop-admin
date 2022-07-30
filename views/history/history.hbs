@@ -2,7 +2,7 @@
 	<div class="col-12 col-xl-12 mb-4 mb-lg-0">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between align-items-center">
-				<h5 class="m-0">ผู้ใช้งาน</h5>
+				<h5 class="m-0">แบบทดสอบ</h5>
 			</div>
 			<div class="card-body">
 				<div class="container">
@@ -17,11 +17,13 @@
 												class="rounded-circle" width="150">
 											<div class="mt-3">
 												{{#each result}}
+												{{#each user}}
 												<h4>{{username}}</h4>
 												<p class="text-muted font-size-sm mb-1">อายุ {{yearsOld dateOfBirth
 													'years'}} ปี</p>
 												<p class="text-muted font-size-sm m-0">วันเกิด {{datetimeFormat
 													dateOfBirth 'Do MMM YYYY'}}</p>
+												{{/each}}
 												{{/each}}
 											</div>
 										</div>
@@ -32,6 +34,7 @@
 								<div class="card mb-3">
 									<div class="card-body">
 										{{#each result}}
+										{{#each user}}
 										<div class="row">
 											<div class="col-sm-3">
 												<h6 class="mb-0">ชื่อจริง</h6>
@@ -69,79 +72,62 @@
 										</div>
 										<hr>
 										{{/each}}
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12 mb-3">
-								<div class="card h-100">
-									<div class="card-body">
-										{{#each result}}
-										<h6 class="d-flex align-items-center mb-3">คะแนนสุขภาพ</h6>
-										<small>ความเครียด</small>
-										<div class="progress mb-3" style="height: 15px">
-											<div class="progress-bar progress-bar-striped progress-bar-animated"
-												role="progressbar" style="width: {{healthScores.stress}}%"
-												aria-valuenow="{{healthScores.stress}}" aria-valuemin="0"
-												aria-valuemax="50">
-												{{healthScores.stress}}</div>
-										</div>
-										<small>การนอนหลับ</small>
-										<div class="progress mb-3" style="height: 15px">
-											<div class="progress-bar progress-bar-striped progress-bar-animated"
-												role="progressbar" style="width: {{healthScores.sleep}}%"
-												aria-valuenow="{{healthScores.sleep}}" aria-valuemin="0"
-												aria-valuemax="50">
-												{{healthScores.sleep}}</div>
-										</div>
 										{{/each}}
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 mb-3">
+
 								<div class="card h-100">
 									<div class="card-body">
-										<h6 class="d-flex align-items-center mb-3">ประวัติการทำแบบทดสอบ</h6>
-										<table class="table">
-											<thead>
-												<tr>
-													<th scope="col">#</th>
-													<th scope="col">คะแนนรวม</th>
-													<th scope="col">คะแนนส่วนที่ 1</th>
-													<th scope="col">คะแนนส่วนที่ 2</th>
-													<th scope="col">คะแนนส่วนที่ 3</th>
-													<th scope="col">วันที่ทำแบบทดสอบ</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												{{#each result}}
-												{{#if history}}
-												{{#each history}}
-												<tr>
-													<th scope="row">{{inc @index 1}}</th>
-													<td>{{totalScore}}</td>
-													{{#each sections}}
-													<td>{{finalScore score.congruent score.incongruent}}</td>
-													{{/each}}
-													<td>{{datetimeFormat createdAt 'l, HH:mm'}} น.</td>
-													<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">View</a></td>
-												</tr>
-												{{/each}}
-												{{else}}
-												<tr>
-													<th scope="row">{{inc @index 1}}</th>
-													<td>-</td>
-													<td>-</td>
-													<td>-</td>
-													<td>-</td>
-													<td>-</td>
-												</tr>
-												{{/if}}
-												{{/each}}
-											</tbody>
-										</table>
+										{{#each result}}
+										<div class="d-flex justify-content-between align-items-center">
+											<div>
+												<span><h3 class="m-0">{{totalScore}}</h3>คะแนนรวม</span>
+											</div>
+											<div>
+												<span>{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.</span>
+											</div>
+										</div>
+										{{/each}}
+										<hr>
+										<p>คะแนนแต่ละส่วน</p>
+										<div class="card-group d-flex justify-content-between align-items-center text-center">
+											{{#each result}}
+											{{#each sections}}
+											<div class="card">
+												<div class="card-header">คะแนนส่วนที่ {{inc @index 1}}</div>
+												<div class="card-body">
+													<span style="font-size: 10px;">{{changeMsToS avgReactionTimeMs}} วินาที</span>
+													<h5 class="mb-1">{{scorePercent score.congruent score.incongruent}}%</h5>
+													<span style="font-size: 16px;">{{finalScore score.congruent score.incongruent}}/20</span>
+												</div>
+											</div>
+											{{/each}}
+											{{/each}}
+										</div>
+										<hr>
+										<p>คะแนนแต่ละประเภท</p>
+										<div class="card-group d-flex justify-content-between align-items-center text-center ">
+											<div class="card">
+												<div class="card-header"><span>Congruent <p class="m-0" style="font-size: 16px;">สีที่แสดงตรงกับคำอ่าน</p></span></div>
+												<div class="card-body">
+													<h5 class="mb-1">{{congruentPercent con}}%</h5>
+													<span style="font-size: 16px;">{{con}}/30</span>
+												</div>
+											</div>
+											<div class="card">
+												<div class="card-header"><span>Incongruent <p class="m-0" style="font-size: 16px;">สีที่แสดงไม่ตรงกับคำอ่าน</p></span></div>
+												<div class="card-body">
+													<h5 class="mb-1">{{congruentPercent incon}}%</h5>
+													<span style="font-size: 16px;">{{incon}}/30</span>
+												</div>
+											</div>
+
+										</div>
 									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>

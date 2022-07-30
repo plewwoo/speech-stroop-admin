@@ -5,7 +5,6 @@
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<h5 class="m-0">ตารางแสดงผลการทำแบบทดสอบ</h5>
 				<div>
-					<button class="btn btn-outline-secondary btn-sm">CSV</button>
 					<button class="btn btn-outline-secondary btn-sm">JSON</button>
 				</div>
 			</div>
@@ -36,7 +35,7 @@
 								<td>{{finalScore score.congruent score.incongruent}}</td>
 								{{/each}}
 								<td>{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.</td>
-								{{!-- <td><a href="#" class="btn btn-sm btn-primary">View</a></td> --}}
+								<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">View</a></td>
 							</tr>
 							{{/each}}
 						</tbody>

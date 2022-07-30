@@ -1,5 +1,11 @@
 * {
-	font-family: 'Prompt', sans-serif;
+	/* font-family: 'Prompt', sans-serif; */
+	font-family: 'BaiJamjuree-Regular';
+}
+
+@font-face {
+	font-family: 'BaiJamjuree-Regular';
+	src: url('../assets/fonts/BaiJamjuree-Regular.ttf') format('truetype');
 }
 
 .users-card {

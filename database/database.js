@@ -4,7 +4,7 @@ require('dotenv').config()
 let mongoDbTest = process.env.mongoDbTest
 let mongoDbProd = process.env.mongoDbProd
 
-mongoose.connect(mongoDbTest, { useNewUrlParser: true });
+mongoose.connect(mongoDbProd, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('connected', function () {
     console.log('Database is connected successfully');
