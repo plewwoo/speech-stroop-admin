@@ -50,6 +50,10 @@ const exphbs = hbs.create({
             percent = (val * 100) / 30
             return percent.toFixed()
         },
+        stressPercent: (val) => {
+            percent = val * 2
+            return percent
+        },
         inc: (value, options) => {
             return parseInt(value) + options
         }

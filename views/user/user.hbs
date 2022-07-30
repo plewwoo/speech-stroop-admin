@@ -1,3 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">แดชบอร์ด</a></li>
+    <li class="breadcrumb-item"><a href="/user">ผู้ใช้งานทั้งหมด</a></li>
+    <li class="breadcrumb-item active">ผู้ใช้งาน</li>
+  </ol>
+</nav>
 <div class="row">
 	<div class="col-12 col-xl-12 mb-4 mb-lg-0">
 		<div class="card">
@@ -80,18 +87,18 @@
 										<small>ความเครียด</small>
 										<div class="progress mb-3" style="height: 15px">
 											<div class="progress-bar progress-bar-striped progress-bar-animated"
-												role="progressbar" style="width: {{healthScores.stress}}%"
+												role="progressbar" style="width: {{stressPercent healthScores.stress}}%"
 												aria-valuenow="{{healthScores.stress}}" aria-valuemin="0"
 												aria-valuemax="50">
-												{{healthScores.stress}}</div>
+												{{healthScores.stress}}/50</div>
 										</div>
 										<small>การนอนหลับ</small>
 										<div class="progress mb-3" style="height: 15px">
 											<div class="progress-bar progress-bar-striped progress-bar-animated"
-												role="progressbar" style="width: {{healthScores.sleep}}%"
+												role="progressbar" style="width: {{stressPercent healthScores.sleep}}%"
 												aria-valuenow="{{healthScores.sleep}}" aria-valuemin="0"
 												aria-valuemax="50">
-												{{healthScores.sleep}}</div>
+												{{healthScores.sleep}}/50</div>
 										</div>
 										{{/each}}
 									</div>
@@ -124,7 +131,7 @@
 													<td>{{finalScore score.congruent score.incongruent}}</td>
 													{{/each}}
 													<td>{{datetimeFormat createdAt 'l, HH:mm'}} น.</td>
-													<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">View</a></td>
+													<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">รายละเอียด</a></td>
 												</tr>
 												{{/each}}
 												{{else}}

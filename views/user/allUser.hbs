@@ -1,9 +1,15 @@
-<h1 class="h2 text-center mb-3">ผู้ใช้งาน</h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">แดชบอร์ด</a></li>
+    <li class="breadcrumb-item active">ผู้ใช้งานทั้งหมด</li>
+  </ol>
+</nav>
+<h1 class="h2 text-center mb-3">ผู้ใช้งานทั้งหมด</h1>
 <div class="row">
 	<div class="col-12 col-xl-12 mb-4 mb-lg-0">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between align-items-center">
-				<h5 class="m-0">ตารางแสดงผู้ใช้งาน</h5>
+				<h5 class="m-0">ตารางแสดงผู้ใช้งานทั้งหมด</h5>
 				<div>
 					<button class="btn btn-outline-secondary btn-sm">JSON</button>
 				</div>
@@ -29,7 +35,7 @@
 								<td>{{name}} {{surname}}</td>
 								<td>{{email}}</td>
 								<td>{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.</td>
-								<td><a href="/user/{{_id}}" class="btn btn-sm btn-primary">View</a></td>
+								<td><a href="/user/{{_id}}" class="btn btn-sm btn-primary">รายละเอียด</a></td>
 							</tr>
 							{{/each}}
 						</tbody>

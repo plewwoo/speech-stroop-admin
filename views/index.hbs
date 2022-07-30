@@ -1,3 +1,8 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active"><a href="/">แดชบอร์ด</a></li>
+  </ol>
+</nav>
 <h1 class="h2 text-center mb-3">แดชบอร์ด</h1>
 <div class="row mb-3">
 	<div class="col-12 col-md-6 col-lg-6 mb-4 mb-lg-0">
@@ -11,7 +16,7 @@
 				</span>
 			</h5>
 			<div class="card-body">
-				<h5 class="card-title text-center">{{userCount}}</h5>
+				<h5 class="card-title text-center">{{userCount}} คน</h5>
 			</div>
 		</div>
 	</div>
@@ -22,11 +27,11 @@
 					history
 				</span>
 				<span class="pl-1">
-					ทำบททดสอบสำเร็จ
+					ทำแบบทดสอบสำเร็จ
 				</span>
 			</h5>
 			<div class="card-body">
-				<h5 class="card-title text-center">{{historiesCount}}</h5>
+				<h5 class="card-title text-center">{{historiesCount}} ครั้ง</h5>
 			</div>
 		</div>
 	</div>
@@ -62,7 +67,7 @@
 								<td>{{finalScore score.congruent score.incongruent}}</td>
 								{{/each}}
 								<td>{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.</td>
-								<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">View</a></td>
+								<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">รายละเอียด</a></td>
 							</tr>
 							{{/each}}
 						</tbody>

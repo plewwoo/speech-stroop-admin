@@ -1,8 +1,22 @@
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">แดชบอร์ด</a></li>
+		<li class="breadcrumb-item"><a href="/history">ประวัติทั้งหมด</a></li>
+		<li class="breadcrumb-item active">ประวัติ</li>
+	</ol>
+</nav>
 <div class="row">
 	<div class="col-12 col-xl-12 mb-4 mb-lg-0">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between align-items-center">
-				<h5 class="m-0">แบบทดสอบ</h5>
+				<h5 class="m-0">ประวัติ</h5>
+				{{#each result}}
+				{{#each user}}
+				<div>
+					<a href="/user/{{_id}}" class="btn btn-primary btn-sm">รายละเอียดผู้ใช้งาน</a>
+				</div>
+				{{/each}}
+				{{/each}}
 			</div>
 			<div class="card-body">
 				<div class="container">
@@ -77,13 +91,14 @@
 								</div>
 							</div>
 							<div class="col-md-12 mb-3">
-
 								<div class="card h-100">
 									<div class="card-body">
 										{{#each result}}
 										<div class="d-flex justify-content-between align-items-center">
 											<div>
-												<span><h3 class="m-0">{{totalScore}}</h3>คะแนนรวม</span>
+												<span>
+													<h3 class="m-0">{{totalScore}}</h3>คะแนนรวม
+												</span>
 											</div>
 											<div>
 												<span>{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.</span>
@@ -92,15 +107,19 @@
 										{{/each}}
 										<hr>
 										<p>คะแนนแต่ละส่วน</p>
-										<div class="card-group d-flex justify-content-between align-items-center text-center">
+										<div
+											class="card-group d-flex justify-content-between align-items-center text-center">
 											{{#each result}}
 											{{#each sections}}
 											<div class="card">
 												<div class="card-header">คะแนนส่วนที่ {{inc @index 1}}</div>
 												<div class="card-body">
-													<span style="font-size: 10px;">{{changeMsToS avgReactionTimeMs}} วินาที</span>
-													<h5 class="mb-1">{{scorePercent score.congruent score.incongruent}}%</h5>
-													<span style="font-size: 16px;">{{finalScore score.congruent score.incongruent}}/20</span>
+													<span style="font-size: 10px;">{{changeMsToS avgReactionTimeMs}}
+														วินาที</span>
+													<h4 class="mb-1">{{scorePercent score.congruent score.incongruent}}%
+													</h4>
+													<span style="font-size: 16px;">{{finalScore score.congruent
+														score.incongruent}}/20</span>
 												</div>
 											</div>
 											{{/each}}
@@ -108,26 +127,29 @@
 										</div>
 										<hr>
 										<p>คะแนนแต่ละประเภท</p>
-										<div class="card-group d-flex justify-content-between align-items-center text-center ">
+										<div
+											class="card-group d-flex justify-content-between align-items-center text-center ">
 											<div class="card">
-												<div class="card-header"><span>Congruent <p class="m-0" style="font-size: 16px;">สีที่แสดงตรงกับคำอ่าน</p></span></div>
+												<div class="card-header"><span>Congruent <p class="m-0"
+															style="font-size: 14px;">สีที่แสดงตรงกับคำอ่าน</p></span>
+												</div>
 												<div class="card-body">
-													<h5 class="mb-1">{{congruentPercent con}}%</h5>
+													<h4 class="mb-1">{{congruentPercent con}}%</h4>
 													<span style="font-size: 16px;">{{con}}/30</span>
 												</div>
 											</div>
 											<div class="card">
-												<div class="card-header"><span>Incongruent <p class="m-0" style="font-size: 16px;">สีที่แสดงไม่ตรงกับคำอ่าน</p></span></div>
+												<div class="card-header"><span>Incongruent <p class="m-0"
+															style="font-size: 14px;">สีที่แสดงไม่ตรงกับคำอ่าน</p></span>
+												</div>
 												<div class="card-body">
-													<h5 class="mb-1">{{congruentPercent incon}}%</h5>
+													<h4 class="mb-1">{{congruentPercent incon}}%</h4>
 													<span style="font-size: 16px;">{{incon}}/30</span>
 												</div>
 											</div>
-
 										</div>
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>

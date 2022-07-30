@@ -8,6 +8,15 @@
 	src: url('../assets/fonts/BaiJamjuree-Regular.ttf') format('truetype');
 }
 
+.user-link {
+	color: black;
+	text-decoration: none;
+}
+
+.user-link:hover {
+	color: black;
+}
+
 .users-card {
 	display: flex;
 	justify-content: center;

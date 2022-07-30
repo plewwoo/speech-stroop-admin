@@ -42,7 +42,6 @@ router.get('/user/:id', (req, res) => {
 			result,
 			users: true,
 		})
-		console.log('result : ', result)
 	})
 });
 
@@ -77,7 +76,6 @@ router.get('/history/:id', (req, res) => {
 			con,
 			incon
 		})
-		// res.json(result[0].sections)
 	})
 });
 
