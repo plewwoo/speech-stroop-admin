@@ -26,13 +26,13 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/users/:page', async (req, res) => {
-	var pageList = []
+	let pageList = []
 	const resultsPerPage = 10;
     let page = req.params.page >= 1 ? req.params.page : 1;
 
     page = page - 1
 
-	var currentPage = page + 1
+	let currentPage = page + 1
 
 	db.usersCount((err, result) => {})
 

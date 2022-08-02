@@ -31,7 +31,7 @@ const db = {
 			cb(null, {
 				'totalUsers': users,
 				'page': page,
-				'nextPage': page + 1,
+				'pagination': page + 1,
 				'users': result
 			});
 		});
@@ -89,7 +89,7 @@ const db = {
 			cb(null, {
 				'totalHistories': histories,
 				'page': page,
-				'nextPage': page + 1,
+				'pagination': page + 1,
 				'histories': result
 			});
 		});

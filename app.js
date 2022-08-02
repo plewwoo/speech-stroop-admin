@@ -9,6 +9,7 @@ const port = 3001;
 const indexRouter = require('./routes/index')
 
 const logger = require('./middleware/logger');
+const e = require('express');
 
 const app = express();
 
@@ -60,6 +61,14 @@ const exphbs = hbs.create({
         paginationIndex: (value, pageIndex) => {
             return (value + 1) + (10 * pageIndex)
         },
+        ifPagination: (value1, value2) => {
+            if (value1 == value2) {
+                return `<li class="page-item active"><a class="page-link" href="/users/${value2}">${value2}</a></li>`
+            }
+            else {
+                return `<li class="page-item"><a class="page-link" href="/users/${value2}">${value2}</a></li>`
+            }
+        }
     }
 })
 
