@@ -29,10 +29,7 @@ router.get('/users/:page', async (req, res) => {
 	let pageList = []
 	const resultsPerPage = 10;
     let page = req.params.page >= 1 ? req.params.page : 1;
-
     page = page - 1
-
-	let currentPage = page + 1
 
 	db.usersCount((err, result) => {})
 
@@ -45,7 +42,6 @@ router.get('/users/:page', async (req, res) => {
 			result,
 			users: true,
 			pageList,
-			currentPage
 		})
 	})
 });
@@ -81,7 +77,6 @@ router.get('/histories/:page', (req, res) => {
 			result,
 			history: true,
 			pageList,
-			currentPage: true
 		})
 	})
 });
@@ -92,7 +87,6 @@ router.get('/history/:id', (req, res) => {
 	const oid = new ObjectId(id)
 
 	db.selectHistoryAndUser(oid, (err, result) => {
-
 		let con1 = (result[0].sections[0].score.congruent)
 		let con2 = (result[0].sections[1].score.congruent)
 		let con3 = (result[0].sections[2].score.congruent)
@@ -126,7 +120,6 @@ router.get('/history/:id', (req, res) => {
 });
 
 router.get('/export-json/:database', (req, res) => {
-
 	const database = req.params.database
 
 	if (database == 'users') {
@@ -156,7 +149,6 @@ router.get('/export-json/:database', (req, res) => {
 })
 
 router.get('/export-csv/:database', (req, res) => {
-
 	const database = req.params.database
 
 	if (database == 'users') {
