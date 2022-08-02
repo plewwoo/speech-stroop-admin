@@ -1,9 +1,9 @@
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">แดชบอร์ด</a></li>
-    <li class="breadcrumb-item"><a href="/user">ผู้ใช้งานทั้งหมด</a></li>
-    <li class="breadcrumb-item active">ผู้ใช้งาน</li>
-  </ol>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">แดชบอร์ด</a></li>
+		<li class="breadcrumb-item"><a href="/users/1">ผู้ใช้งานทั้งหมด</a></li>
+		<li class="breadcrumb-item active">ผู้ใช้งาน</li>
+	</ol>
 </nav>
 <div class="row">
 	<div class="col-12 col-xl-12 mb-4 mb-lg-0">
@@ -71,7 +71,7 @@
 												<h6 class="mb-0">วันที่สมัครสมาชิก</h6>
 											</div>
 											<div class="col-sm-9 text-secondary">
-												{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm:ss'}} น.
+												{{datetimeFormat createdAt 'Do MMM YYYY, HH:mm'}} น.
 											</div>
 										</div>
 										<hr>
@@ -79,18 +79,20 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 mb-3">
+							<div class="col-md-4 mb-3">
 								<div class="card h-100">
+									<div class="card-header">
+										<h6 class="m-0">คะแนนสุขภาพ</h6>
+									</div>
 									<div class="card-body">
 										{{#each result}}
-										<h6 class="d-flex align-items-center mb-3">คะแนนสุขภาพ</h6>
 										<small>ความเครียด</small>
 										<div class="progress mb-3" style="height: 15px">
 											<div class="progress-bar progress-bar-striped progress-bar-animated"
 												role="progressbar" style="width: {{stressPercent healthScores.stress}}%"
 												aria-valuenow="{{healthScores.stress}}" aria-valuemin="0"
 												aria-valuemax="50">
-												{{healthScores.stress}}/50</div>
+												{{healthScores.stress}}</div>
 										</div>
 										<small>การนอนหลับ</small>
 										<div class="progress mb-3" style="height: 15px">
@@ -98,16 +100,33 @@
 												role="progressbar" style="width: {{stressPercent healthScores.sleep}}%"
 												aria-valuenow="{{healthScores.sleep}}" aria-valuemin="0"
 												aria-valuemax="50">
-												{{healthScores.sleep}}/50</div>
+												{{healthScores.sleep}}</div>
 										</div>
+										{{/each}}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8 mb-3">
+								<div class="card h-100">
+									<div class="card-header">
+										<h6 class="m-0">รางวัล</h6>
+									</div>
+									<div class="card-body d-flex flex-wrap justify-content-center align-items-center">
+										{{#each result}}
+										{{#each badge}}
+										<img class="m-1" src="/{{imgPath}}" alt="{{name}}" style="width: 100px;">
+										{{else}}
+										{{/each}}
 										{{/each}}
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 mb-3">
 								<div class="card h-100">
+									<div class="card-header">
+										<h6 class="m-0">ประวัติการทำแบบทดสอบ</h6>
+									</div>
 									<div class="card-body">
-										<h6 class="d-flex align-items-center mb-3">ประวัติการทำแบบทดสอบ</h6>
 										<table class="table">
 											<thead>
 												<tr>
@@ -131,7 +150,8 @@
 													<td>{{finalScore score.congruent score.incongruent}}</td>
 													{{/each}}
 													<td>{{datetimeFormat createdAt 'l, HH:mm'}} น.</td>
-													<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">รายละเอียด</a></td>
+													<td><a href="/history/{{_id}}"
+															class="btn btn-sm btn-primary">รายละเอียด</a></td>
 												</tr>
 												{{/each}}
 												{{else}}

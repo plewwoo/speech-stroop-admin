@@ -6,10 +6,10 @@ let mongoDbProd = process.env.mongoDbProd
 
 mongoose.connect(mongoDbProd, { useNewUrlParser: true });
 var db = mongoose.connection;
-db.on('connected', function () {
+db.on('connected', () => {
     console.log('Database is connected successfully');
 });
-db.on('disconnected', function () {
+db.on('disconnected', () => {
     console.log('Database is disconnected successfully');
 })
 db.on('error', console.error.bind(console, 'connection error:'));

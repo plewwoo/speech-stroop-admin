@@ -56,7 +56,10 @@ const exphbs = hbs.create({
         },
         inc: (value, options) => {
             return parseInt(value) + options
-        }
+        },
+        paginationIndex: (value, pageIndex) => {
+            return (value + 1) + (10 * pageIndex)
+        },
     }
 })
 

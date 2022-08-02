@@ -37,6 +37,7 @@
 
   {{!-- CSS --}}
   <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/tableSort.css">
 </head>
 
 <body>
@@ -87,14 +88,14 @@
             </li>
             <li class="nav-item">
               {{#if users}}
-              <a class="nav-link active nav-flex" href="/user">
+              <a class="nav-link active nav-flex" href="/users/1">
                 <span class="material-symbols-outlined">
                   group
                 </span>
                 <span class="ml-2">ผู้ใช้งาน</span>
               </a>
               {{else}}
-              <a class="nav-link nav-flex" href="/user">
+              <a class="nav-link nav-flex" href="/users/1">
                 <span class="material-symbols-outlined">
                   group
                 </span>
@@ -104,14 +105,14 @@
             </li>
             <li class="nav-item">
               {{#if history}}
-              <a class="nav-link active nav-flex" href="/history">
+              <a class="nav-link active nav-flex" href="/histories/1">
                 <span class="material-symbols-outlined">
                   history
                 </span>
                 <span class="ml-2">ประวัติ</span>
               </a>
               {{else}}
-              <a class="nav-link nav-flex" href="/history">
+              <a class="nav-link nav-flex" href="/histories/1">
                 <span class="material-symbols-outlined">
                   history
                 </span>
@@ -124,6 +125,8 @@
       </nav>
       <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
         {{{ body }}}
+        {{!-- JavaScript --}}
+        <script src="../js/tableSort.js"></script>
         <footer class="pt-5 d-flex justify-content-between">
           <span>Copyright © 2022</span>
           <ul class="nav m-0">
@@ -136,4 +139,5 @@
     </div>
   </div>
 </body>
+
 </html>

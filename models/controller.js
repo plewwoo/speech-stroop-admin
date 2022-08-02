@@ -1,11 +1,17 @@
 const conn = require('../database/database')
 
+let users = 0
+let histories = 0
+
 const db = {
-	userCount: (cb) => {
+	usersCount: (cb) => {
 		conn.collection('users').count({}, (err, result) => {
 			if (err)
 				cb(err, null)
 			cb(null, result)
+
+			users = result
+			return users
 		})
 	},
 	historiesCount: (cb) => {
@@ -13,37 +19,31 @@ const db = {
 			if (err)
 				cb(err, null)
 			cb(null, result)
+
+			histories = result
+			return histories
 		})
 	},
-	selectAllUsers: (cb) => {
-		conn.collection('users').find({}).toArray((err, result) => {
+	selectAllUsers: (page, resultsPerPage, cb) => {
+		conn.collection('users').find({}).limit(resultsPerPage).skip(page > 0 ? page * resultsPerPage : 0).toArray((err, result) => {
+			if (err)
+				cb(err, null);
+			cb(null, {
+				'totalUsers': users,
+				'page': page,
+				'nextPage': page + 1,
+				'users': result
+			});
+		});
+	},
+	selectUser: (id, cb) => {
+		conn.collection('users').findOne({ _id: id }, (err, result) => {
 			if (err)
 				cb(err, null);
 			cb(null, result);
 		});
 	},
-	selectAllHistories: (cb) => {
-		conn.collection('histories').find({}).toArray((err, result) => {
-			if (err)
-				cb(err, null);
-			cb(null, result);
-		});
-	},
-	selectUsers: (id, cb) => {
-		conn.collection('users').findOne({_id: id}, (err, result) => {
-			if (err)
-				cb(err, null);
-			cb(null, result);
-		});
-	},
-	selectHistories: (id, cb) => {
-		conn.collection('histories').findOne({_id: id}, (err, result) => {
-			if (err)
-				cb(err, null);
-			cb(null, result);
-		});
-	},
-	select10UserAndHistories: (cb) => {
+	select10UsersAndHistories: async (cb) => {
 		conn.collection('histories').aggregate([
 			{
 				$lookup:
@@ -51,19 +51,19 @@ const db = {
 					from: 'users',
 					localField: 'userId',
 					foreignField: '_id',
-					as: 'newObj'
+					as: 'user'
 				}
 			},
 			{
 				$match: { 'users': { $ne: [] } }
 			},
-		]).sort({'createdAt' : -1}).limit(10).toArray(function (err, result) {
+		]).sort({ 'createdAt': -1 }).limit(10).toArray((err, result) => {
 			if (err)
 				cb(err, null);
 			cb(null, result);
 		});
 	},
-	selectAllUserAndHistories: (cb) => {
+	selectAllUsersAndHistories: (page, resultsPerPage, cb) => {
 		conn.collection('histories').aggregate([
 			{
 				$lookup:
@@ -71,20 +71,30 @@ const db = {
 					from: 'users',
 					localField: 'userId',
 					foreignField: '_id',
-					as: 'newObj'
+					as: 'user'
 				}
 			},
 			{
 				$match: { 'users': { $ne: [] } }
+			},
+			{
+				$skip: page > 0 ? page * resultsPerPage : 0
+			},
+			{
+				$limit: resultsPerPage
 			},
 		]).toArray(function (err, result) {
 			if (err)
 				cb(err, null);
-			cb(null, result);
+			cb(null, {
+				'totalHistories': histories,
+				'page': page,
+				'nextPage': page + 1,
+				'histories': result
+			});
 		});
 	},
-	selectUserAndHistories: (id, cb) => {
-		console.log('id :', id)
+	selectUserAndHistory: (id, cb) => {
 		conn.collection('users').aggregate([
 			{
 				$match: { '_id': id }
@@ -98,13 +108,22 @@ const db = {
 					as: 'history'
 				}
 			},
+			{
+				$lookup:
+				{
+					from: 'badges',
+					localField: 'badge',
+					foreignField: '_id',
+					as: 'badge'
+				}
+			},
 		]).toArray((err, result) => {
 			if (err)
 				cb(err, null);
 			cb(null, result);
 		});
 	},
-	selectHistoriesAndUser: (id, cb) => {
+	selectHistoryAndUser: (id, cb) => {
 		conn.collection('histories').aggregate([
 			{
 				$match: { '_id': id }
@@ -116,6 +135,15 @@ const db = {
 					localField: 'userId',
 					foreignField: '_id',
 					as: 'user'
+				}
+			},
+			{
+				$lookup:
+				{
+					from: 'badges',
+					localField: 'badge',
+					foreignField: '_id',
+					as: 'badge'
 				}
 			},
 		]).toArray((err, result) => {
