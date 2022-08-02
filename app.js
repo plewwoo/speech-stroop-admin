@@ -9,7 +9,6 @@ const port = 3001;
 const indexRouter = require('./routes/index')
 
 const logger = require('./middleware/logger');
-const e = require('express');
 
 const app = express();
 
