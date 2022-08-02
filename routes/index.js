@@ -1,18 +1,19 @@
 const express = require('express');
-const { userCount } = require('../models/controller');
 const router = express.Router();
 const db = require('../models/controller')
+const fs = require('fs');
+const converter = require('json-2-csv');
 
 router.get('/', async (req, res) => {
 	var userCount
 	var historiesCount
-	db.usersCount((err, result) => {
+	db.usersCount( async (err, result) => {
 		userCount = result
-		return userCount
+		return await userCount
 	})
-	db.historiesCount((err, result) => {
+	db.historiesCount( async (err, result) => {
 		historiesCount = result
-		return historiesCount
+		return await historiesCount
 	})
 	db.select10UsersAndHistories((err, result) => {
 		res.render('index', {
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
 	})
 });
 
-router.get('/users/:page', (req, res) => {
+router.get('/users/:page', async (req, res) => {
 	var pageList = []
 	const resultsPerPage = 10;
     let page = req.params.page >= 1 ? req.params.page : 1;
@@ -35,12 +36,12 @@ router.get('/users/:page', (req, res) => {
 
 	db.usersCount((err, result) => {})
 
-	db.selectAllUsers(page, resultsPerPage, (err, result) => {
+	db.selectAllUsers(page, resultsPerPage, async (err, result) => {
 		for (i=0; i < Math.ceil(result.totalUsers / resultsPerPage); i++) {
 			pageList.push(i+1)
 		}
 
-		res.render('user/allUser', {
+		await res.render('user/allUser', {
 			result,
 			users: true,
 			pageList,
@@ -95,10 +96,10 @@ router.get('/history/:id', (req, res) => {
 		let con1 = (result[0].sections[0].score.congruent)
 		let con2 = (result[0].sections[1].score.congruent)
 		let con3 = (result[0].sections[2].score.congruent)
-		let con = con1 + con2 + con3
 		let incon1 = (result[0].sections[0].score.incongruent)
 		let incon2 = (result[0].sections[1].score.incongruent)
 		let incon3 = (result[0].sections[2].score.incongruent)
+		let con = con1 + con2 + con3
 		let incon = incon1 + incon2 + incon3
 
 		let correctStack = []
@@ -123,5 +124,69 @@ router.get('/history/:id', (req, res) => {
 		})
 	})
 });
+
+router.get('/export-json/:database', (req, res) => {
+
+	const database = req.params.database
+
+	if (database == 'users') {
+		db.exportAllUsers((err, result) => {
+			try {
+				fs.writeFileSync('export/users.json', JSON.stringify(result));
+				console.log(`Done writing ${database}.json to file.`);
+			}
+			catch(err) {
+				console.log('Error writing to file', err)
+			}
+			res.redirect('/users/1')
+		})
+	}
+	else if (database == 'histories') {
+		db.exportAllHistories((err, result) => {
+			try {
+				fs.writeFileSync('export/histories.json', JSON.stringify(result));
+				console.log(`Done writing ${database}.json to file.`);
+			}
+			catch(err) {
+				console.log('Error writing to file', err)
+			}
+			res.redirect('/histories/1')
+		})
+	}
+})
+
+router.get('/export-csv/:database', (req, res) => {
+
+	const database = req.params.database
+
+	if (database == 'users') {
+		db.exportAllUsers((err, result) => {
+			try {
+				converter.json2csv(result, (err, csv) => {
+					fs.writeFileSync('export/users.csv', csv)
+				})
+				console.log(`Done writing ${database}.csv to file.`);
+			}
+			catch(err) {
+				console.log('Error writing to file', err)
+			}
+			res.redirect('/users/1')
+		})
+	}
+	else if (database == 'histories') {
+		db.exportAllHistories((err, result) => {
+			try {
+				converter.json2csv(result, (err, csv) => {
+					fs.writeFileSync('export/histories.csv', csv)
+				})
+				console.log(`Done writing ${database}.csv to file.`);
+			}
+			catch(err) {
+				console.log('Error writing to file', err)
+			}
+			res.redirect('/histories/1')
+		})
+	}
+})
 
 module.exports = router;

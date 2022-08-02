@@ -152,6 +152,20 @@ const db = {
 			cb(null, result);
 		});
 	},
+	exportAllUsers: (cb) => {
+		conn.collection('users').find({}).toArray((err, result) => {
+			if (err)
+				cb(err, null);
+			cb(null, result);
+		});
+	},
+	exportAllHistories: (cb) => {
+		conn.collection('histories').find({}).toArray((err, result) => {
+			if (err)
+				cb(err, null);
+			cb(null, result);
+		});
+	},
 };
 
 module.exports = db;
