@@ -56,8 +56,8 @@
 				<li class="page-item"><a class="page-link" href="/histories/{{this}}">{{this}}</a></li>
 				{{/each}} --}}
 				{{#each pageList}}
-				{{#ifPagination ../result.pagination this}}
-				{{/ifPagination}}
+				{{#historiesPagination ../result.pagination this}}
+				{{/historiesPagination}}
 				{{/each}}
 			</ul>
 		</nav>

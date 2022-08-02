@@ -51,8 +51,8 @@
 						href="/users/{{this}}">{{this}}</a></li>
 				{{/each}} --}}
 				{{#each pageList}}
-				{{#ifPagination ../result.pagination this}}
-				{{/ifPagination}}
+				{{#usersPagination ../result.pagination this}}
+				{{/usersPagination}}
 				{{/each}}
 			</ul>
 		</nav>
