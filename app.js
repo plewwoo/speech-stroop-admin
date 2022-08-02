@@ -61,20 +61,12 @@ const exphbs = hbs.create({
         paginationIndex: (value, pageIndex) => {
             return (value + 1) + (10 * pageIndex)
         },
-        usersPagination: (value1, value2) => {
+        ifPagination: (name, value1, value2) => {
             if (value1 == value2) {
-                return `<li class="page-item active"><a class="page-link" href="/users/${value2}">${value2}</a></li>`
+                return `<li class="page-item active"><a class="page-link" href="/${name}/${value2}">${value2}</a></li>`
             }
             else {
-                return `<li class="page-item"><a class="page-link" href="/users/${value2}">${value2}</a></li>`
-            }
-        },
-        historiesPagination: (value1, value2) => {
-            if (value1 == value2) {
-                return `<li class="page-item active"><a class="page-link" href="/histories/${value2}">${value2}</a></li>`
-            }
-            else {
-                return `<li class="page-item"><a class="page-link" href="/histories/${value2}">${value2}</a></li>`
+                return `<li class="page-item"><a class="page-link" href="/${name}/${value2}">${value2}</a></li>`
             }
         },
     }

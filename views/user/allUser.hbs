@@ -47,8 +47,8 @@
 		<nav class="mt-3">
 			<ul class="pagination justify-content-center">
 				{{#each pageList}}
-				{{#usersPagination ../result.pagination this}}
-				{{/usersPagination}}
+				{{#ifPagination 'users' ../result.pagination this}}
+				{{/ifPagination}}
 				{{/each}}
 			</ul>
 		</nav>
