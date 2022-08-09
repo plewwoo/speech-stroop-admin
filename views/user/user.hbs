@@ -132,7 +132,7 @@
 										<h6 class="m-0">ประวัติการทำแบบทดสอบ</h6>
 									</div>
 									<div class="card-body">
-										<table class="table">
+										<table class="table table-sortable">
 											<thead>
 												<tr>
 													<th scope="col">#</th>
@@ -149,7 +149,7 @@
 												{{#if history}}
 												{{#each history}}
 												<tr>
-													<th scope="row">{{inc @index 1}}</th>
+													<td class="font-weight-bold" scope="row">{{inc @index 1}}</td>
 													<td>{{totalScore}}</td>
 													{{#each sections}}
 													<td>{{finalScore score.congruent score.incongruent}}</td>
@@ -175,6 +175,26 @@
 									</div>
 								</div>
 							</div>
+							<div class="col-12 mb-3">
+								<div class="card-group">
+									<div class="card">
+										<h6 class="card-header">กราฟคะแนนย้อนหลัง</h6>
+										<div class="card-body">
+											<div class="chart-container">
+												<canvas id="chart1"></canvas>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<h6 class="card-header">กราฟเวลาตอบสนอง</h6>
+										<div class="card-body">
+											<div class="chart-container">
+												<canvas id="chart2"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -182,3 +202,123 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	const labels1 = [
+		{{#each labelsData}}
+		'{{datetimeFormat this 'Do MMM YY'}}',
+		{{/each}}
+	];
+
+	const score = [
+		{{#each scoreData}}
+		'{{pastScorePercent this}}',
+		{{/each}}
+	]
+
+	const data1 = {
+		labels: labels1,
+		datasets: [
+			{
+				label: 'กราฟคะแนนย้อนหลัง',
+				backgroundColor: 'rgb(255, 99, 132, 0.2)',
+				borderColor: 'rgb(255, 99, 132)',
+				borderWidth: 1,
+				borderRadius: 12,
+				borderSkipped: false,
+				data: score,
+			}
+		]
+	};
+
+	const config1 = {
+		type: 'bar',
+		data: data1,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			},
+			maintainAspectRatio: false,
+			scales: {
+				y: {
+					beginAtZero: true,
+					max: 100,
+					ticks: {
+						callback: function (value, index, ticks) {
+							return value + '%';
+						}
+					}
+				}
+			}
+		}
+	};
+</script>
+
+<script>
+	const chart1 = new Chart(
+		document.getElementById('chart1'),
+		config1
+	);
+</script>
+
+<script>
+	const labels2 = [
+		{{#each labelsData}}
+		'{{datetimeFormat this 'Do MMM YY'}}',
+		{{/each}}
+	];
+
+	const response = [
+		{{#each reactionTimeData}}
+		'{{this}}',
+		{{/each}}
+	]
+
+	const data2 = {
+		labels: labels2,
+		datasets: [
+			{
+				label: 'กราฟเวลาตอบสนอง',
+				backgroundColor: 'rgb(255, 99, 132, 0.2)',
+				borderColor: 'rgb(255, 99, 132)',
+				borderWidth: 1,
+				borderRadius: 12,
+				borderSkipped: false,
+				data: response,
+			}
+		]
+	};
+
+	const config2 = {
+		type: 'bar',
+		data: data2,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			},
+			maintainAspectRatio: false,
+			scales: {
+				y: {
+					beginAtZero: true,
+					max: 3,
+					ticks: {
+						callback: function (value, index, ticks) {
+							return value + ' ' + 'วินาที';
+						}
+					}
+				}
+			},
+		}
+	};
+</script>
+
+<script>
+	const chart2 = new Chart(
+		document.getElementById('chart2'),
+		config2
+	);
+</script>

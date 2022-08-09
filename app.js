@@ -4,7 +4,7 @@ const hbs = require('express-handlebars');
 const moment = require('moment')
 const session = require('express-session')
 const hostname = 'localhost';
-const port = 3001;
+const port = 3000;
 
 const indexRouter = require('./routes/index')
 
@@ -30,10 +30,13 @@ const exphbs = hbs.create({
     layoutDir: __dirname + '/views/layout',
     helpers: {
         datetimeFormat: (date, format) => {
-            return moment(date).locale('th').format(format)
+            return moment(date).locale('th').add(543, 'year').format(format)
         },
         yearsOld: (date, format) => {
             return moment().diff(date, format)
+        },
+        month: (number) => {
+            return moment().locale('th').month(number-1).format('MMMM')
         },
         finalScore: (congruent, incongruent) => {
             return congruent + incongruent
@@ -48,6 +51,10 @@ const exphbs = hbs.create({
         },
         congruentPercent: (val) => {
             percent = (val * 100) / 30
+            return percent.toFixed()
+        },
+        pastScorePercent: (val) => {
+            percent = (val * 100) / 60
             return percent.toFixed()
         },
         stressPercent: (val) => {
@@ -68,6 +75,9 @@ const exphbs = hbs.create({
                 return `<li class="page-item"><a class="page-link" href="/${name}/${value2}">${value2}</a></li>`
             }
         },
+        reverseArray: (array) => {
+            return array.reverse()
+        }
     }
 })
 

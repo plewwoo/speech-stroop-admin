@@ -4,17 +4,17 @@ let users = 0
 let histories = 0
 
 const db = {
-	usersCount: (cb) => {
+	usersCount: async (cb) => {
 		conn.collection('users').count({}, (err, result) => {
 			if (err)
-				cb(err, null)
-			cb(null, result)
+				cb(err, null);
+			cb(null, result);
 
-			users = result
-			return users
+			users = result;
+			return users;
 		})
 	},
-	historiesCount: (cb) => {
+	historiesCount: async (cb) => {
 		conn.collection('histories').count({}, (err, result) => {
 			if (err)
 				cb(err, null)
@@ -24,8 +24,8 @@ const db = {
 			return histories
 		})
 	},
-	selectAllUsers: (page, resultsPerPage, cb) => {
-		conn.collection('users').find({}).limit(resultsPerPage).skip(page > 0 ? page * resultsPerPage : 0).toArray((err, result) => {
+	selectAllUsers: async (page, resultsPerPage, cb) => {
+		conn.collection('users').find({}).limit(resultsPerPage).skip(page > 0 ? page * resultsPerPage : 0).sort({ 'createdAt': -1 }).toArray((err, result) => {
 			if (err)
 				cb(err, null);
 			cb(null, {
@@ -76,6 +76,9 @@ const db = {
 			},
 			{
 				$match: { 'users': { $ne: [] } }
+			},
+			{
+				$sort: { 'createdAt': -1 }
 			},
 			{
 				$skip: page > 0 ? page * resultsPerPage : 0
@@ -151,6 +154,20 @@ const db = {
 				cb(err, null);
 			cb(null, result);
 		});
+	},
+	allUsers: (cb) => {
+		return new Promise((resolve, reject) => {
+			conn.collection('users').find({}).toArray(function (err, result) {
+				resolve(result)
+			})
+		})
+	},
+	allHistories: (cb) => {
+		return new Promise((resolve, reject) => {
+			conn.collection('histories').find({}).toArray(function (err, result) {
+				resolve(result)
+			})
+		})
 	},
 	exportAllUsers: (cb) => {
 		conn.collection('users').find({}).toArray((err, result) => {
