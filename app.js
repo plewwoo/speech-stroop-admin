@@ -3,7 +3,6 @@ const express = require('express');
 const hbs = require('express-handlebars');
 const moment = require('moment')
 const session = require('express-session')
-const HOSTNAME = 'localhost';
 const PORT = process.env.PORT || 3000;
 
 const indexRouter = require('./routes/index')
@@ -95,6 +94,6 @@ app.use(logger);
 //Routes
 app.use('/', indexRouter)
 
-app.listen(PORT, HOSTNAME, () => {
-    console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
 });
