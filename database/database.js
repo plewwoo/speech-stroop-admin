@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
-require('dotenv').config()
+const dotenv = require('dotenv')
+dotenv.config()
 
 let mongoDbTest = process.env.mongoDbTest
 let mongoDbProd = process.env.mongoDbProd
 var db = mongoose.connection;
 
-mongoose.connect(process.env.MONGO_DATABASE, { useNewUrlParser: true });
+mongoose.connect(mongoDbProd, { useNewUrlParser: true });
 db.on('connected', () => {
     console.log('Heroku Database is connected successfully');
 });
