@@ -189,6 +189,50 @@
 									</div>
 								</div>
 							</div>
+							<div class="col-md-12 mb-3">
+								<div class="card h-100">
+									<div class="card-header">
+										<h6 class="m-0">ประวัติการทำแบบทดสอบ</h6>
+									</div>
+									<div class="card-body">
+										<table class="table table-sortable">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">คะแนนรวม</th>
+													<th scope="col">คะแนนส่วนที่ 1</th>
+													<th scope="col">คะแนนส่วนที่ 2</th>
+													<th scope="col">คะแนนส่วนที่ 3</th>
+													<th scope="col">วันที่ทำแบบทดสอบ</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												{{#each hisResult}}
+												<tr>
+													<td class="font-weight-bold" scope="row">{{inc @index 1}}</td>
+													<td>{{totalScore}}</td>
+													{{#each sections}}
+													<td>{{finalScore score.congruent score.incongruent}}</td>
+													{{/each}}
+													<td>{{datetimeFormat createdAt 'l, HH:mm'}} น.</td>
+													<td><a href="/history/{{_id}}" class="btn btn-sm btn-primary">รายละเอียด</a></td>
+												</tr>
+												{{else}}
+												<tr>
+													<th scope="row"></th>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+												{{/each}}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
