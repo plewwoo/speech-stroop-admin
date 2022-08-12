@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 let mongoDbTest = process.env.mongoDbTest
-let mongoDbProd = process.env.mongoDbProd
+let mongoDbProd = process.env.MONGO_DB
 var db = mongoose.connection;
 
 mongoose.connect(mongoDbProd, { useNewUrlParser: true });
