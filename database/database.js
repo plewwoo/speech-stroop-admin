@@ -6,7 +6,7 @@ let mongoDbProd = process.env.mongoDbProd
 var db = mongoose.connection;
 
 if (process.env.isHeroku == true){
-    mongoose.connect(process.env.mongoDbProd, { useNewUrlParser: true });
+    mongoose.connect(process.env.MONGO_DATABASE, { useNewUrlParser: true });
     db.on('connected', () => {
         console.log('Database is connected successfully');
     });
