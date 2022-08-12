@@ -3,15 +3,28 @@ require('dotenv').config()
 
 let mongoDbTest = process.env.mongoDbTest
 let mongoDbProd = process.env.mongoDbProd
-
-mongoose.connect(mongoDbProd, { useNewUrlParser: true });
 var db = mongoose.connection;
-db.on('connected', () => {
-    console.log('Database is connected successfully');
-});
-db.on('disconnected', () => {
-    console.log('Database is disconnected successfully');
-})
-db.on('error', console.error.bind(console, 'connection error:'));
+
+if (process.env.isHeroku == true){
+    mongoose.connect(process.env.mongoDbProd, { useNewUrlParser: true });
+    db.on('connected', () => {
+        console.log('Database is connected successfully');
+    });
+    db.on('disconnected', () => {
+        console.log('Database is disconnected successfully');
+    })
+    db.on('error', console.error.bind(console, 'connection error:'));
+}
+else {
+    mongoose.connect(mongoDbProd, { useNewUrlParser: true });
+    db.on('connected', () => {
+        console.log('Database is connected successfully');
+    });
+    db.on('disconnected', () => {
+        console.log('Database is disconnected successfully');
+    })
+    db.on('error', console.error.bind(console, 'connection error:'));
+}
+
 
 module.exports = db;
