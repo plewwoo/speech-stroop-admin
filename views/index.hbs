@@ -38,11 +38,21 @@
 </div>
 <div class="row">
 	<div class="col-12 mb-3">
-		<div class="card">
-			<h5 class="card-header">กราฟจำนวนครั้งผู้เข้าทดสอบในแต่ละเดือน</h5>
-			<div class="card-body">
-				<div class="chart-container">
-					<canvas id="chart"></canvas>
+		<div class="card-group">
+			<div class="card">
+				<h5 class="card-header">กราฟสมาชิกใหม่ในแต่ละเดือน</h5>
+				<div class="card-body">
+					<div class="chart-container">
+						<canvas id="userChart"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<h5 class="card-header">กราฟจำนวนครั้งผู้เข้าทดสอบในแต่ละเดือน</h5>
+				<div class="card-body">
+					<div class="chart-container">
+						<canvas id="testChart"></canvas>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -90,30 +100,30 @@
 </div>
 
 <script>
-	const labels = [
-	{{#each labelsData}}
+	const labels1 = [
+	{{#each labelsData1}}
 	'{{month this}}',
 	{{/each}}
 	];
 
-	const data = {
-		labels: labels,
+	const data1 = {
+		labels: labels1,
 		datasets: [
 			{
-				label: 'จำนวนครั้งผู้เข้าทดสอบในแต่ละเดือน',
+				label: 'สมาชิกใหม่ในแต่ละเดือน',
 				backgroundColor: 'rgb(255, 99, 132, 0.2)',
 				borderColor: 'rgb(255, 99, 132)',
 				borderWidth: 1,
 				borderRadius: 12,
 				borderSkipped: false,
-				data: [{{chartData}}],
+				data: [{{chartData1}}],
 			}
 		]
 	};
 
-	const config = {
+	const config1 = {
 		type: 'bar',
-		data: data,
+		data: data1,
 		options: {
 			plugins: {
 				legend: {
@@ -123,7 +133,65 @@
 			maintainAspectRatio: false,
 			scales: {
 				y: {
-					beginAtZero: true
+					beginAtZero: true,
+					ticks: {
+						callback: function (value, index, ticks) {
+							return value + ' ' + 'คน';
+						}
+					}
+				}
+			}
+		}
+	};
+</script>
+
+<script>
+	const chart1 = new Chart(
+		document.getElementById('userChart'),
+		config1
+	);
+</script>
+
+<script>
+	const labels2 = [
+	{{#each labelsData2}}
+	'{{month this}}',
+	{{/each}}
+	];
+
+	const data2 = {
+		labels: labels2,
+		datasets: [
+			{
+				label: 'จำนวนครั้งผู้เข้าทดสอบในแต่ละเดือน',
+				backgroundColor: 'rgb(255, 99, 132, 0.2)',
+				borderColor: 'rgb(255, 99, 132)',
+				borderWidth: 1,
+				borderRadius: 12,
+				borderSkipped: false,
+				data: [{{chartData2}}],
+			}
+		]
+	};
+
+	const config2 = {
+		type: 'bar',
+		data: data2,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			},
+			maintainAspectRatio: false,
+			scales: {
+				y: {
+					beginAtZero: true,
+					ticks: {
+						callback: function (value, index, ticks) {
+							return value + ' ' + 'ครั้ง';
+						}
+					}
 				}
 			}
 		}
@@ -132,7 +200,7 @@
 
 <script>
 	const chart = new Chart(
-		document.getElementById('chart'),
-		config
+		document.getElementById('testChart'),
+		config2
 	);
 </script>

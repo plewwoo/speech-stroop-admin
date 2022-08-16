@@ -13,6 +13,6 @@ db.on('connected', () => {
 db.on('disconnected', () => {
     console.log('Database is disconnected successfully');
 })
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'Connection error:'));
 
 module.exports = db;

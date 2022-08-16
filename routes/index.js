@@ -24,7 +24,6 @@ router.post('/login', async (req, res) => {
 				req.session.loggedin = true
 				req.session.username = username
 				res.redirect('/')
-				console.log(result)
 			}
 			else {
 				res.render('auth/login', { msg: 'รหัสผ่านไม่ถูกต้อง', register: true})
@@ -49,33 +48,55 @@ router.get('/', async (req, res) => {
 		let username = req.session.username
 		let userCount
 		let historiesCount
-		let labelsData = [];
-		let chartData = []
+		let labelsData1 = [];
+		let labelsData2 = []
+		let chartData1 = []
+		let chartData2 = []
 
 		userCount = await db.usersCount()
 		historiesCount = await db.historiesCount()
 
-		const allData = db.allHistories()
-		let hisResult = await allData
-		var monthArr = []
+		let userResult = await db.allUsers()
+		let monthArr1 = []
+		for (i = 0; i < userResult.length; i++) {
+			let dateArray = userResult[i].createdAt
+			let month = JSON.stringify(dateArray).split('-')
+			monthArr1.push(month[1])
+		}
+
+		labelsData1 = monthArr1.filter((item, pos) => {
+			return monthArr1.indexOf(item) == pos
+		})
+
+		let arr1 = monthArr1
+		let count1 = {}
+
+		arr1.forEach(element => {
+			count1[element] = (count1[element] || 0) + 1
+		})
+
+		chartData1 = Object.values(count1)
+
+		let hisResult = await db.allHistories()
+		let monthArr2 = []
 		for (i = 0; i < hisResult.length; i++) {
 			let dateArray = hisResult[i].createdAt
 			let month = JSON.stringify(dateArray).split('-')
-			monthArr.push(month[1])
+			monthArr2.push(month[1])
 		}
 
-		labelsData = monthArr.filter(function (item, pos) {
-			return monthArr.indexOf(item) == pos;
+		labelsData2 = monthArr2.filter((item, pos) => {
+			return monthArr2.indexOf(item) == pos;
 		});
 
-		const arr = monthArr;
-		const count = {};
+		let arr2 = monthArr2;
+		let count2 = {};
 
-		arr.forEach(element => {
-			count[element] = (count[element] || 0) + 1;
+		arr2.forEach(element => {
+			count2[element] = (count2[element] || 0) + 1;
 		});
 
-		chartData = Object.values(count)
+		chartData2 = Object.values(count2)
 
 		const result = await db.select10UsersAndHistories()
 
@@ -85,8 +106,10 @@ router.get('/', async (req, res) => {
 			userCount,
 			historiesCount,
 			index: true,
-			labelsData,
-			chartData,
+			labelsData1,
+			labelsData2,
+			chartData1,
+			chartData2,
 		}
 
 		res.render('index', context)
@@ -98,6 +121,7 @@ router.get('/', async (req, res) => {
 
 router.get('/users/:page', async (req, res) => {
 	if (req.session.loggedin) {
+		let username = req.session.username
 		let pageList = []
 		const resultsPerPage = 10;
 		let page = req.params.page >= 1 ? req.params.page : 1;
@@ -111,6 +135,7 @@ router.get('/users/:page', async (req, res) => {
 		}
 
 		res.render('user/allUser', {
+			username,
 			result,
 			users: true,
 			pageList,
@@ -123,6 +148,7 @@ router.get('/users/:page', async (req, res) => {
 
 router.get('/user/:id', async (req, res) => {
 	if (req.session.loggedin) {
+		let username = req.session.username
 		const id = req.params.id
 		const oid = new ObjectId(id)
 
@@ -169,6 +195,7 @@ router.get('/user/:id', async (req, res) => {
 		}
 
 		res.render('user/user', {
+			username,
 			result,
 			users: true,
 			labelsData,
@@ -183,6 +210,7 @@ router.get('/user/:id', async (req, res) => {
 
 router.get('/histories/:page', async (req, res) => {
 	if (req.session.loggedin) {
+		let username = req.session.username
 		var pageList = []
 		const resultsPerPage = 10;
 		let page = req.params.page >= 1 ? req.params.page : 1;
@@ -197,6 +225,7 @@ router.get('/histories/:page', async (req, res) => {
 		}
 
 		res.render('history/allHistory', {
+			username,
 			result,
 			history: true,
 			pageList,
@@ -209,6 +238,7 @@ router.get('/histories/:page', async (req, res) => {
 
 router.get('/history/:id', async (req, res) => {
 	if (req.session.loggedin) {
+		let username = req.session.username
 		const id = req.params.id
 		const oid = new ObjectId(id)
 
@@ -247,6 +277,7 @@ router.get('/history/:id', async (req, res) => {
 		}
 
 		res.render('history/history', {
+			username,
 			result,
 			history: true,
 			con,
@@ -263,7 +294,7 @@ router.get('/history/:id', async (req, res) => {
 
 router.get('/export-json/:database', (req, res) => {
 	if (req.session.loggedin) {
-			const database = req.params.database
+		const database = req.params.database
 
 		if (database == 'users') {
 			db.exportAllUsers((err, result) => {
