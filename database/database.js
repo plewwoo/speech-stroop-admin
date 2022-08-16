@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv')
 dotenv.config()
 
-let mongoDbTest = process.env.mongoDbTest
+let MONGO_DB_TEST = process.env.MONGO_DB_TEST
 let MONGO_DB = process.env.MONGO_DB
 var db = mongoose.connection;
 
-mongoose.connect(mongoDbTest, { useNewUrlParser: true });
+mongoose.connect(MONGO_DB_TEST, { useNewUrlParser: true });
 db.on('connected', () => {
     console.log('Database is connected successfully');
 });
