@@ -45,14 +45,15 @@
 </head>
 
 <body>
+  {{#unless register}}
   <nav class="navbar navbar-light bg-light p-2">
     <div class="d-flex col-12 col-md-4 col-lg-4 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between">
       <a class="navbar-brand" href="/">
-      <img src="../images/logo/logo.png" alt="logo" width="50px">
-      <span style="font-weight: bold;">Speech Stroop</span>
+        <img src="../images/logo/logo.png" alt="logo" width="50px">
+        <span style="font-weight: bold;">Speech Stroop</span>
       </a>
-      <button class="navbar-toggler d-md-none collapsed mb-3" type="button" data-toggle="collapse"
-        data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler d-md-none collapsed mb-3" type="button" data-toggle="collapse" data-target="#sidebar"
+        aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
@@ -60,11 +61,10 @@
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-expanded="false">
-          Hello, Admin
+          สวัสดี, {{username}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" href="/logout">ลงชื่อออก</a></li>
         </ul>
       </div>
     </div>
@@ -141,7 +141,12 @@
       </main>
     </div>
   </div>
-
+  {{else}}
+  <main class="col-12">
+    {{{ body }}}
+  </main>
+  {{/unless}}
+  
   {{!-- JavaScript --}}
   <script src="../js/tableSort.js"></script>
 

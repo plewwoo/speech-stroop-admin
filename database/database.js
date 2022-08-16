@@ -6,12 +6,12 @@ let mongoDbTest = process.env.mongoDbTest
 let MONGO_DB = process.env.MONGO_DB
 var db = mongoose.connection;
 
-mongoose.connect(MONGO_DB, { useNewUrlParser: true });
+mongoose.connect(mongoDbTest, { useNewUrlParser: true });
 db.on('connected', () => {
-    console.log('Heroku Database is connected successfully');
+    console.log('Database is connected successfully');
 });
 db.on('disconnected', () => {
-    console.log('Heroku Database is disconnected successfully');
+    console.log('Database is disconnected successfully');
 })
 db.on('error', console.error.bind(console, 'connection error:'));
 

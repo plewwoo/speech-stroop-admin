@@ -4,6 +4,13 @@ let users = 0
 let histories = 0
 
 const db = {
+	checkAdmin: async (username, cb) => {
+		return new Promise((resolve, reject) => {
+			conn.collection('users').findOne({'username': username}, (err, result) => {
+				resolve(result)
+			})
+		})
+	},
 	usersCount: async (cb) => {
 		return new Promise((resolve, reject) => {
 			conn.collection('users').count({}, (err, result) => {
