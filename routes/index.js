@@ -13,8 +13,8 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-	const username = req.body.username // แอดมิน
-	const password = req.body.password // 00000000
+	const username = req.body.username // admin
+	const password = req.body.password // theplew1531
 
 	const result = await db.checkAdmin(username)
 
